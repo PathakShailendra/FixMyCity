@@ -160,7 +160,6 @@ const ViewAdminSingleComplaint = () => {
         {/* Update Department Button */}
         <div className="mb-6">
           <button
-{/*             onClick={handleUpdateDepartment} */}
             className="px-6 py-2 bg-green-600 text-white rounded-xl hover:bg-green-700 transition"
           >
             ✅ Update Department
