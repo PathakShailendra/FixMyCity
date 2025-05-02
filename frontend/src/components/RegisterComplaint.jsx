@@ -118,7 +118,7 @@ const RegisterComplaint = () => {
       formDataToSend.append("image", file); 
   
       const response = await Axios.post(
-        "http://localhost:3000/api/user/generate-description",
+        "https://fixmycity-backend.onrender.com/api/user/generate-description",
         formDataToSend,
         {
           headers: {
