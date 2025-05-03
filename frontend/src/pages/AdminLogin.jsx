@@ -41,6 +41,7 @@ const AdminLogin = () => {
               admin: response.data.admin,
             }));
             localStorage.setItem("adminToken", response.data.token);
+            localStorage.setItem("token", response.data.token);
       
             setFormData({
               email: '',
