@@ -3,7 +3,7 @@ import axios from "axios";
 
 // Token fetcher (assuming it's stored in localStorage after login)
 const getToken = () => {
-  return localStorage.getItem("adminToken");
+  return localStorage.getItem("token");
 };
 
 const Axios = axios.create({
