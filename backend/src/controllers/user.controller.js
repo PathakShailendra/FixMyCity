@@ -115,14 +115,14 @@ export const registerComplaintController = async (req, res) => {
   try {
     const {
       title,
-      description,
+      description, // This will be saved directly
       latitude, longitude,
       locality, city, state,
       department
     } = req.body;
 
     const file = req.file;
-    console.log(req.body)
+    console.log(req.body);
     const userId = req.user._id;
 
     if (!title || !description || !latitude || !longitude || !locality || !department) {
@@ -135,7 +135,7 @@ export const registerComplaintController = async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
-    if(!file) {
+    if (!file) {
       return res.status(400).json({ message: 'Please provide an image file' });
     }
 
@@ -159,13 +159,15 @@ export const registerComplaintController = async (req, res) => {
       imageUrl = uploadResult.secure_url;
     }
 
-    const summary = await generateSummary(description);
-    const { detectedCategory, detectedPriority } =
-      detectCategoryAndPriority(description);
+    // ----- Removed AI generation lines -----
+    // const summary = await generateSummary(description);
+    // const { detectedCategory, detectedPriority } =
+    //   detectCategoryAndPriority(description);
+    // ----------------------------------------
 
     const newComplaint = await Complaint.create({
       title,
-      description:summary,
+      description: description, // <-- CHANGED: Using original description from req.body
       // descriptionByImage : caption,
       imageUrl,
       latitude,
@@ -175,8 +177,8 @@ export const registerComplaintController = async (req, res) => {
       state,
       user: userId,
       department,
-      category: detectedCategory, // <-- added detected category
-      priority: detectedPriority, // <-- added detected priority
+      // category: detectedCategory, // <-- REMOVED
+      // priority: detectedPriority, // <-- REMOVED
       statusHistory: [
         {
           status: "pending",
@@ -184,8 +186,6 @@ export const registerComplaintController = async (req, res) => {
         },
       ],
     });
-
-
 
     user.complaints.push(newComplaint._id);
     await user.save();
@@ -207,7 +207,6 @@ export const registerComplaintController = async (req, res) => {
     });
   }
 };
-
 
 
 
